@@ -28,3 +28,8 @@ app.use(express.json({limit: '50kb'}))
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(express.static('public'))
+
+
+import userRouter from './router/user.router.js'
+
+app.use('/api/user', userRouter)
