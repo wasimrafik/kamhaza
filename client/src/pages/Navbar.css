@@ -1,0 +1,204 @@
+
+/* Menu item link styling */
+.p-menuitem-link {
+    padding: 0.8rem 1rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    color: black !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+}
+
+/* Hover effect */
+.p-menuitem-link:hover {
+    background-color: #2da8b7 !important;  /* Blue background */
+    color: #fff !important;                /* White text */
+    transform: translateX(2px);
+}
+
+/* Optional: icon inside menu */
+.p-menuitem-icon {
+    margin-right: 0.5rem;
+    color: inherit;
+}
+
+/* Optional: menu container style */
+.p-menu {
+    padding: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+}
+
+
+/* Custom styling for PrimeReact Dropdown */
+.custom-dropdown{
+    height: 2.5rem;
+    background: #262827;
+    border: 1px solid #323433;
+    max-width: 14rem;
+}
+
+.p-inputtext{
+    padding-left: 0.5rem;
+}
+.custom-dropdown .p-dropdown {
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.95rem;
+    background-color: #fff;
+    border: transparent;
+    /* transition: border-color 0.3s ease, box-shadow 0.3s ease; */
+  }
+  
+  .custom-dropdown .p-dropdown:hover {
+    /* border-color: #3b82f6; blue-500 */
+  }
+  
+  .custom-dropdown .p-dropdown.p-focus {
+    border-color: #2563eb; /* blue-600 */
+    /* box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25); soft focus ring */
+  }
+  
+  .custom-dropdown .p-dropdown-label {
+    color: #ffffff; /* gray-700 */
+  }
+  
+  .p-dropdown-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    /* transition: background-color 0.2s ease; */
+    border-radius: 4px;
+    color: black; /* blue-700 */
+
+  }
+  
+  /* Hover effect for dropdown options */
+  .p-dropdown-item:hover {
+    background-color: #2da7b78e; /* light blue */
+    color: #fff; /* blue-700 */
+  }
+  
+  /* Selected item style */
+ .p-dropdown-item.p-highlight {
+    background-color: #3b82f6 !important;
+    color: #fff !important;
+  }
+  
+
+
+
+  /* Wrapper for search input and button */
+.custom-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Input styling */
+.custom-input .p-inputtext {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.custom-input .p-inputtext:focus {
+  border-color: #2563eb; /* blue-600 */
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+}
+
+/* Search button styling */
+#searchButton {
+  padding: 0.55rem 0.85rem;
+  border: none;
+  background-color: #2563eb;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Prevent movement on hover */
+#searchButton:hover {
+  background-color: #1d4ed8;
+}
+
+/* Icon styling */
+#searchButton i {
+  pointer-events: none;
+}
+
+.p-button-icon{
+    background: #2da7b78e;
+}
+
+
+.p-inputgroup{
+    width: 30rem;
+}
+/* Wrapper for search input and button */
+.custom-input-product {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Input styling */
+.custom-input-product .p-inputtext {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.custom-input-product .p-inputtext:focus {
+  border-color: #2563eb; /* blue-600 */
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+}
+
+/* Search button styling */
+#ProductsearchButton {
+  padding: 0.55rem 0.85rem;
+  border: none;
+  background-color: #2da8b7;
+  color: #fff;
+  font-size: 1rem;
+  /* border-radius: 8px; */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Prevent movement on hover */
+#ProductsearchButton:hover {
+  background-color: #2da8b7;
+  color: #fff;
+
+}
+
+/* Icon styling */
+#ProductsearchButton i {
+  pointer-events: none;
+}
+
+
+.input-height {
+    height: 2.5rem;
+}
