@@ -7,11 +7,16 @@ import { Menu } from 'primereact/menu';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import './Navbar.css'
+import CustReportCard from "../components/CustReportCard";
+import CustCheckboxRadio from "../components/Custom Inputs Types/CustCheckboxRadio";
+import CustComingSoon from "../components/CustComingSoon";
+import CustBreadCrumb from "../components/BreadCrumb/CustBreadCrumb";
+import CustChips from "../components/CustChips";
 
 function NavBar() {
     const menuLeft = useRef(null);
     const [selectedCity, setSelectedCity] = useState(null);
-
+    const [selectedLanguage, setSelectedLanguage] = useState(null);
     const selectLocation = [
         { "name": "Riyadh", "code": "RYD" },
         { "name": "Al-Kharj", "code": "AKH" },
@@ -79,6 +84,11 @@ function NavBar() {
         { "name": "Al-Bukayriyah", "code": "BUK" }
     ]
 
+    const language = [
+        { "name": "English", "code": "EN" },
+        { "name": "Arabic", "code": "AB" },
+
+    ]
 
     const items = [
         {
@@ -108,6 +118,7 @@ function NavBar() {
                     <div className="navbar-left">
                         <div className="logo">
                             <h2>Kam Haza</h2>
+                            <CustChips />
                         </div>
                         {/* <div className="location-selector">
                             <i className="fas fa-map-marker-alt"></i>
@@ -144,13 +155,23 @@ function NavBar() {
                     </div>
 
                     <div className="navbar-right">
-                        <div className="language-selector">
+                        {/* <div className="language-selector">
                             <select className="form-control">
                                 <option>EN</option>
                                 <option>ES</option>
                                 <option>FR</option>
                             </select>
-                        </div>
+                        </div> */}
+                        
+                             <Dropdown
+                            value={selectedLanguage}    
+                            onChange={(e) => setSelectedLanguage(e.value)}
+                            options={language}
+                            optionLabel="name"
+                            editable
+                            placeholder="Select Lanuage"
+                            className="custom-dropdown"
+                        />
 
                         <div className="nav-icons">
                             <div className="nav-icon" id="messagesIcon" data-count="2">
