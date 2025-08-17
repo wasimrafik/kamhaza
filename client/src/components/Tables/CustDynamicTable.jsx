@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Paginator } from "primereact/paginator";
-// import CustNoData from "../NoData/CustNoData";
-import CustomActionMenu from "../Modal/CustomActionMenu";
-import NoDataFound from "../NoDataFound/NoDataFound";
+import CustNoData from "../NoData/CustNoData";
+import CustomActionMenu from "../CustomActionMenu/CustomActionMenu";
 
 const CustDynamicTable = ({
   data,
@@ -62,7 +61,7 @@ const CustDynamicTable = ({
     scrollable: true,
     scrollHeight: "flex",
     loading,
-    emptyMessage: emptyIcon ? <NoDataFound /> : <div className="flex justify-center items-center p-4">No data found</div>,
+    emptyMessage: emptyIcon ? <CustNoData /> : <div className="flex justify-center items-center p-4">No data found</div>,
     dataKey: selectionId,
   };
 

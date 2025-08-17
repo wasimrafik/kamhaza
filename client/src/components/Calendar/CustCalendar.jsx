@@ -143,7 +143,7 @@ const CustCalendar = ({
                 className="p-button-outlined p-button-secondary hidden"
                 onClick={onCancel}
               />
-              <CustButton
+              <CustButtons
                 label="Set"
                 className="p-button-primary"
                 onClick={handleSet}

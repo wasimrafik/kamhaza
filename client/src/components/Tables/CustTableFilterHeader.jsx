@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef } from "react";
-import CustomDynamicInput from "../CustomInputsTypes/CustomDynamicInput";
+import CustomDynamicInput from "../CustomDynamicInput";
 import { Menu } from "primereact/menu";
 
 const CustTableFilterHeader = (props) => {
