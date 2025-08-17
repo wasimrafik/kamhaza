@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import { getToastRef, showToast } from '@/utils/ToastUtils';
+import { getToastRef, showToast } from '../../utils/ToasterUtils/Toaster';
 
 const CustFileUpload = ({
   allowedFileTypes = [],
