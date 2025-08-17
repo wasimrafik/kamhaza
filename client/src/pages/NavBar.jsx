@@ -8,7 +8,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import './Navbar.css'
 import CustReportCard from "../components/CustReportCard";
-import CustCheckboxRadio from "../components/CustomInputsTypes/CustCheckboxRadio";
+import CustCheckboxRadio from "../components/Custom Inputs Types/CustCheckboxRadio";
 import CustComingSoon from "../components/CustComingSoon";
 import CustBreadCrumb from "../components/BreadCrumb/CustBreadCrumb";
 import CustChips from "../components/CustChips";

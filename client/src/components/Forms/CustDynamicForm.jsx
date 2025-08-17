@@ -1,26 +1,25 @@
-// "use client";
+"use client";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
-import CustomDynamicInput from "../CustomInputsTypes/CustomDynamicInput";
-import CustAutoComplete from "../AutoCompleteComponents/CustAutoComplete";
-import CustInputSlider from "../CustomInputsTypes/CustInputSlider";
-// ⬇️ Ensure this path points to the real slider component (not the same file as CustInputSlider)
-import CustSlider from "../CarouselAndAccordian/CustSlider";
-// import { zodResolver } from "@hookform/resolvers/zod"; // ⬅️ Add back later when you install zod + resolvers
-import CustChips from "../CustChips";
-import CustButton from "../CustButton";
+import CustomDynamicInput from "../CustomDynamicInput";
+import CustAutoComplete from "../Autocomplete/CustAutoComplete";
+import CustInputSlider from "../CusInputSlider/CustInputSlider";
+import CustSlider from "../CusSlider/CustSlider";
+import { zodResolver } from "@hookform/resolvers/zod";
+import CustButtons from "../Button/CustButtons";
+import CustChips from "../CusChips/CustChips";
 
 const CustDynamicForm = ({
-  formKey,                // ⬅️ use this instead of `key`
+  key,
   id,
-  fields = [],            // ✅ default to []
-  formData = {},          // ✅ default to {}
+  fields,
+  formData,
   className,
   formSubmitHandler = () => {},
   onFieldChange,
   onFieldBlur,
   dependency = [],
-  validations,            // zod schema (optional, for later)
+  validations,
   onValidityChange,
   validationTriggerCount = 0,
   btnClass,
@@ -30,7 +29,6 @@ const CustDynamicForm = ({
   handleFileChange = () => {},
   autoSyncFields = [],
 }) => {
-
   const {
     control,
     handleSubmit,
@@ -41,56 +39,48 @@ const CustDynamicForm = ({
     formState: { errors, isValid },
     trigger,
   } = useForm({
-    defaultValues: { ...(formData || {}) },
-    // ⬇️ When you add zod later, uncomment the import and this line:
-    // ...(validations && { resolver: zodResolver(validations) }),
+    defaultValues: { ...formData },
+    ...(validations && { resolver: zodResolver(validations) }),
     mode: "all",
   });
 
-  const formDataString = useMemo(() => JSON.stringify(formData || {}), [formData]);
+  const formDataString = useMemo(() => JSON.stringify(formData), [formData]);
   const formValues = getValues();
 
-  // Keep specific fields in sync with external formData
   useEffect(() => {
-    if (!autoSyncFields?.length) return;
+    if (!autoSyncFields.length) return;
     autoSyncFields.forEach((fieldName) => {
       if (
-        formData?.[fieldName] !== undefined &&
-        JSON.stringify(formData?.[fieldName]) !== JSON.stringify(getValues(fieldName))
+        formData[fieldName] !== undefined &&
+        JSON.stringify(formData[fieldName]) !== JSON.stringify(getValues(fieldName))
       ) {
-        setValue(fieldName, formData?.[fieldName]);
+        setValue(fieldName, formData[fieldName]);
       }
     });
   }, [formData, setValue, getValues, autoSyncFields]);
 
-  // Bubble up validity
   useEffect(() => {
     onValidityChange?.(isValid);
   }, [isValid, onValidityChange]);
 
-  // External trigger
   useEffect(() => {
-    if (validationTriggerCount > 0) trigger();
-  }, [validationTriggerCount, trigger]);
+    validationTriggerCount > 0 && trigger();
+  }, [validationTriggerCount]);
 
-  // Compute names of dependent fields once dependency is known
   const dependentFields = useMemo(() => {
-    return dependency?.map?.((dep) => dep?.dependentOn).filter(Boolean) || [];
-  }, [dependency]);
+    return dependency?.map?.((dep) => dep.dependentOn) || [];
+  }, []);
 
-  // Watch dependent field values
   const dependentFieldValues = useWatch({ control, name: dependentFields });
   const prevValues = useRef({});
 
-  // Reset dependent target fields when the driver fields change
   useEffect(() => {
     const hasChanged = JSON.stringify(prevValues.current) !== JSON.stringify(dependentFieldValues);
     if (!hasChanged) return;
     prevValues.current = dependentFieldValues;
 
-    if (!Array.isArray(dependency) || dependency.length === 0) return;
+    if (!dependency?.length) return;
 
-    // If fileChange flag not set, call handleFileChange(false) and stop (matches your original logic)
     if (!fileChange) {
       handleFileChange(false);
       return;
@@ -99,23 +89,20 @@ const CustDynamicForm = ({
     dependency.forEach(({ dependentOn, field }) => {
       const currentValue = watch(dependentOn);
 
-      // If the driver is empty (or empty object), clear targets
-      const isEmptyObject = typeof currentValue === "object" && currentValue !== null && Object.keys(currentValue).length === 0;
-      if (!currentValue || isEmptyObject) {
-        (field || []).forEach((fieldName) => {
+      if (!currentValue || (typeof currentValue === "object" && Object.keys(currentValue).length === 0)) {
+        field.forEach((fieldName) => {
           onFieldChange?.(fieldName, "");
           setValue(fieldName, "");
         });
         return;
       }
 
-      // Otherwise still clear targets (as per original code)
-      (field || []).forEach((fieldName) => {
+      field.forEach((fieldName) => {
         onFieldChange?.(fieldName, "");
         setValue(fieldName, "");
       });
     });
-  }, [dependentFieldValues, dependency, fileChange, handleFileChange, onFieldChange, setValue, watch]);
+  }, [dependentFieldValues]);
 
   const handleBlur = (fieldName) => {
     trigger(fieldName);
@@ -124,7 +111,6 @@ const CustDynamicForm = ({
 
   const renderInputField = useCallback(
     (field, index) => {
-      if (!field) return null;
       if (field.conditional && !field.conditional(formValues)) return null;
 
       return (
@@ -160,15 +146,14 @@ const CustDynamicForm = ({
                 case "toggle-group":
                   return (
                     <div className="grid grid-cols-2 gap-y-4">
-                      {(field.toggleOptions || []).map((toggleOption, i) => (
+                      {field.toggleOptions.map((toggleOption, i) => (
                         <CustInputSlider
                           key={i}
-                          checked={!!formValues?.[toggleOption?.name]}
+                          checked={formValues[toggleOption.name]}
                           onChange={(value) => {
-                            const tgt = toggleOption?.name;
-                            onFieldChange?.(tgt, value);
-                            setValue(tgt, value);
-                            handleBlur(tgt);
+                            onFieldChange?.(toggleOption.name, value);
+                            setValue(toggleOption.name, value);
+                            handleBlur(toggleOption.name);
                           }}
                           name={toggleOption?.label}
                         />
@@ -179,7 +164,7 @@ const CustDynamicForm = ({
                 case "toggle":
                   return (
                     <CustInputSlider
-                      checked={!!inputField?.value}
+                      checked={inputField?.value}
                       label={field?.label}
                       required={field?.required}
                       disabled={field.disabled}
@@ -198,9 +183,8 @@ const CustDynamicForm = ({
                     <CustSlider
                       label={field?.label}
                       onChange={(e) => {
-                        const v = e?.value;
-                        inputField.onChange(v);
-                        onFieldChange?.(field.name, v);
+                        inputField.onChange(e.value);
+                        onFieldChange?.(field.name, e.value);
                         handleBlur(field.name);
                       }}
                       value={inputField?.value}
@@ -219,12 +203,11 @@ const CustDynamicForm = ({
                       options={field?.options}
                       description={field?.description}
                       onChange={(e) => {
-                        const v = Array.isArray(e) ? e[0] : e;
-                        inputField.onChange(v);
-                        onFieldChange?.(field?.name, v);
+                        inputField.onChange(e[0]);
+                        onFieldChange?.(field?.name, e[0]);
                         handleBlur(field.name);
                       }}
-                      selectedOptions={inputField?.value ? [{ ...inputField?.value }] : []}
+                      selectedOptions={[{ ...inputField?.value }]}
                       required={field.required}
                       invalid={!!errors?.[field?.name]}
                       error={errors?.[field?.name]?.message}
@@ -239,9 +222,8 @@ const CustDynamicForm = ({
                       keyfilter={field?.keyfilter}
                       className="w-full"
                       onChange={(e) => {
-                        const v = e?.value;
-                        inputField?.onChange(v);
-                        onFieldChange?.(field.name, v);
+                        inputField?.onChange(e.value);
+                        onFieldChange?.(field.name, e.value);
                         handleBlur(field.name);
                       }}
                       onChipRemove={field?.onChipRemove}
@@ -282,7 +264,7 @@ const CustDynamicForm = ({
                     />
                   );
 
-                case "custom": {
+                case "custom":
                   const Component = field.component;
                   return (
                     <Component
@@ -297,7 +279,6 @@ const CustDynamicForm = ({
                       name={field.name}
                     />
                   );
-                }
 
                 case "dropdown":
                   return (
@@ -325,9 +306,9 @@ const CustDynamicForm = ({
                       {...field}
                       value={inputField?.value}
                       onChange={(e) => {
-                        if (field.label?.toLowerCase() === "channels") {
+                        if (field.label?.toLowerCase() === 'channels') {
                           let value = e?.target?.value ?? e?.value ?? e;
-                          value = (value || []).map((ch) => ({ id: ch, label: ch, disabled: ch === "SMS" }));
+                          value = value.map((ch) => ({ id: ch, label: ch, disabled: ch === 'SMS' }));
                           inputField.onChange(value);
                           onFieldChange?.(field.name, value);
                         } else {
@@ -370,49 +351,41 @@ const CustDynamicForm = ({
   );
 
   const isFirstRender = useRef(true);
-  const lastFormDataRef = useRef(formData || {});
+  const lastFormDataRef = useRef(formData);
 
-  // Detect meaningful external formData changes and reset
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      lastFormDataRef.current = formData || {};
+      lastFormDataRef.current = formData;
       return;
     }
 
     const currentValues = getValues();
-    const safeFormData = formData || {};
-    const safeLastData = lastFormDataRef.current || {};
-
     const hasSignificantChange =
-      Object.keys(safeFormData).length !== Object.keys(safeLastData).length ||
-      Object.keys(safeFormData).some((key) => {
-        const oldValue = safeLastData[key];
-        const newValue = safeFormData[key];
+      Object.keys(formData).length !== Object.keys(lastFormDataRef.current).length ||
+      Object.keys(formData).some((key) => {
+        const oldValue = lastFormDataRef.current[key];
+        const newValue = formData[key];
         const currentValue = currentValues[key];
-        return oldValue !== newValue && currentValue !== newValue && !(oldValue === "" && newValue === currentValue);
+        return oldValue !== newValue && currentValue !== newValue && !(oldValue === '' && newValue === currentValue);
       });
 
-    if (hasSignificantChange) reset(safeFormData);
-    lastFormDataRef.current = safeFormData;
-  }, [formDataString, getValues, reset, formData]);
+    if (hasSignificantChange) reset(formData);
+    lastFormDataRef.current = formData;
+  }, [formDataString, getValues, reset]);
 
-  // When isChangeForm toggles, force reset to incoming formData
   useEffect(() => {
-    reset({ ...(formData || {}) });
-  }, [isChangeForm, reset, formData]);
+    reset({ ...formData });
+  }, [isChangeForm]);
 
-  const renderedFields = useMemo(
-    () => (Array.isArray(fields) ? fields.map((field, i) => renderInputField(field, i)) : []),
-    [fields, renderInputField]
-  );
+  const renderedFields = useMemo(() => fields.map((field, i) => renderInputField(field, i)), [fields, renderInputField]);
 
   return (
-    <form key={formKey} id={id} onSubmit={handleSubmit(formSubmitHandler)} className={className}>
+    <form key={key} id={id} onSubmit={handleSubmit(formSubmitHandler)} className={className}>
       {renderedFields}
       {label && (
-        <div className={`mt-6 ${btnClass || ""}`}>
-          <CustButton label={label} />
+        <div className="mt-6">
+          <CustButtons label={label} />
         </div>
       )}
     </form>

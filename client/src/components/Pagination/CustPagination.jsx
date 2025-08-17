@@ -1,6 +1,12 @@
 "use client";
 import React from 'react';
-import { Paginator } from 'primereact/paginator';
+import {
+  Paginator,
+  PaginatorCurrentPageReportOptions,
+  PaginatorNextPageLinkOptions,
+  PaginatorPrevPageLinkOptions,
+  PaginatorRowsPerPageDropdownOptions,
+} from 'primereact/paginator';
 import { Ripple } from 'primereact/ripple';
 import { classNames } from 'primereact/utils';
 import { Dropdown } from 'primereact/dropdown';
