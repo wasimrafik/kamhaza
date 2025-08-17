@@ -1,63 +1,20 @@
-import React, {useEffect,useRef, useState} from 'react'
+import React, { useState, useEffect } from 'react';
 import { mockProducts, mockCategories } from '../assets/Data/MockData.js';
-import { Menu } from 'primereact/menu';
-import { Button } from 'primereact/button';
-import {useNavigate} from 'react-router-dom'
+ 
 
 const HomePage = () => {
     const [featuredProducts, setFeaturedProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [items, setItems] = useState([]);
-
-     const [activeCategory, setActiveCategory] = useState('all');
-    const [menuItems, setMenuItems] = useState([]);
-    const menu = useRef(null);
-    const navigate = useNavigate();
-
-
-    const categoryFilters = {
-        electronics: ['Mobile', 'Laptop', 'Camera'],
-        vehicles: ['Cars', 'Motorcycles', 'Trucks'],
-        fashion: ['Men', 'Women', 'Accessories'],
-        'real-estate': ['Rent', 'Buy', 'Commercial'],
-        'home-garden': ['Furniture', 'Decor', 'Gardening'],
-        all: []
-    };
-
-      const categories = [
-        { key: 'all', label: 'All Categories' },
-        { key: 'electronics', label: 'Electronics' },
-        { key: 'vehicles', label: 'Vehicles' },
-        { key: 'real-estate', label: 'Real Estate' },
-        { key: 'fashion', label: 'Fashion' },
-        { key: 'home-garden', label: 'Home & Garden' },
-    ];
-
-      // Handle Subcategory Selection
-    const handleSubcategorySelect = (categoryKey, subcategoryLabel) => {
-        setActiveCategory(categoryKey); // highlight parent
-        const urlCategory = categoryKey.toLowerCase();
-        const urlSub = subcategoryLabel.toLowerCase().replace(/\s+/g, '-');
-        navigate(`/category/${urlCategory}/${urlSub}`);
-    };
-
-    // Handle Category Button Click
-    const handleCategoryClick = (categoryKey, event) => {
-        const subcategories = categoryFilters[categoryKey] || [];
-        const items = subcategories.map(sub => ({
-            label: sub,
-            command: () => handleSubcategorySelect(categoryKey, sub)
-        }));
-
-        setMenuItems(items);
-        menu.current.toggle(event);
-    };
-
+  
     useEffect(() => {
       // Simulate API call to get featured products
       setFeaturedProducts(mockProducts.filter(product => product.featured));
     }, []);
-
+  
+    const handleCategoryClick = (categoryId) => {
+      setSelectedCategory(categoryId);
+      // Here you would filter products by category
+    };
     return (
         <>
               {/* <!-- Home Page -->  */}
@@ -75,26 +32,6 @@ const HomePage = () => {
                 </div>
                 <div className="subcategories" id="subcategories"></div>
             </div>
-
-              {/* <div className="filter-bar">
-           <div className="filter-bar">
-            <div className="container">
-                <div className="categories-nav">
-                    {categories.map(cat => (
-                        <button
-                            key={cat.key}
-                            className={`category-btn ${activeCategory === cat.key ? 'active' : ''}`}
-                            onClick={(e) => handleCategoryClick(cat.key, e)}
-                        >
-                            {cat.label}
-                        </button>
-                    ))}
-                </div>
-
-                <Menu model={menuItems} popup ref={menu} />
-            </div>
-        </div>
-              </div> */}
         </div>
 
         {/* <!-- Hero Section -->  */}
