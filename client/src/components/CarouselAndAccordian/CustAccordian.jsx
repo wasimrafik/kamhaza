@@ -13,12 +13,12 @@ const CustAccordian = ({ className, activeIndex: propActiveIndex, multiple, tabs
     } else if (multiple && propActiveIndex === undefined) {
       setInternalActiveIndex(Array.from({ length: tabs.length }, (_, i) => i));
     }
-  }, [propActiveIndex, multiple, tabs.length]);
+  }, [propActiveIndex, multiple, tabs?.length]);
 
   return (
     <div className={`card ${className}`}>
       <Accordion activeIndex={internalActiveIndex} multiple={multiple} className="space-y-4">
-        {tabs.map((tab, idx) => (
+        {tabs?.map((tab, idx) => (
           <AccordionTab
             key={idx}
             header={tab.header}

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { Dialog } from "primereact/dialog";
-import CustButtons from "../Button/CustButtons";
+import CustButtons from "../CustButton";
 import { Tooltip } from "primereact/tooltip";
 
 const CustModal = ({
