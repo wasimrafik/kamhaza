@@ -9,11 +9,11 @@ import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { Dropdown } from "primereact/dropdown";
 import { MultiSelect } from "primereact/multiselect";
-import CustCalendar from "./Calendar/CustCalendar";
-import CustCheckboxRadio from "./CheckboxRadio/CustCheckboxRadio";
+import CustCalendar from "../Calendar/CustCalendar";
+import CustCheckboxRadio from "../CustomInputsTypes/CustCheckboxRadio";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Tooltip } from "primereact/tooltip";
-import CustFileUpload from "./CustFileUpload/CustFileUpload";
+import CustFileUpload from "../FileUpload/CustFileUpload";
 import { Checkbox } from "primereact/checkbox";
 
 const CustomDynamicInput = (props) => {

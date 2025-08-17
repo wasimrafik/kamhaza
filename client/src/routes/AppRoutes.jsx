@@ -9,6 +9,7 @@ import LoginPage from '../pages/Authentication/LoginPage.jsx';
 import RegistertionPage from '../pages/Authentication/RegistertionPage.jsx';
 import AdminPannel from '../pages/AdminPannel.jsx';
 import ProductDetailsPage from '../pages/ProductDetailsPage.jsx';
+import ComponentsShowcase from '../pages/DummyComponentsSamples/SampleComponents.jsx';
 const AppRoutes = () => {
   return (
     <>
@@ -20,7 +21,7 @@ const AppRoutes = () => {
       <Route path="/home" element={<Dashboard />} />
       <Route path='/login' element={<LoginPage />} />
       <Route path='/productDetails' element={<ProductDetailsPage />} />
-
+      <Route path="/sample" element={<ComponentsShowcase />} />
       <Route path='/register' element={<RegistertionPage />} />
 
       <Route path='/admin' element={<AdminPannel />} />
